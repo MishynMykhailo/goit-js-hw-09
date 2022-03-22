@@ -66,7 +66,7 @@ const options = {
   };
 
 function addLeadingZero(value) {
-  return String(value).padEnd(2,'0');
+  return String(value).padStart(2,'0');
 }
 
 
