@@ -31,3 +31,19 @@ img {
     margin-right: auto;
     width: 200px;
 }
+.timer {
+  display: flex;
+  font-family: 'Barlow Condensed', sans-serif;
+}
+.value {
+  font-size: 35px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.label {
+  font-size: 20px;
+}
+.field:not(:last-child){
+  margin-right:30px;
+}

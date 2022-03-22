@@ -28,6 +28,7 @@
   "dependencies": {
     "@vimeo/player": "^2.16.4",
     "flatpickr": "^4.6.10",
-    "lodash.throttle": "^4.1.1"
+    "lodash.throttle": "^4.1.1",
+    "notiflix": "^3.2.5"
   }
 }

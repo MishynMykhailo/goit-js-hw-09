@@ -1,6 +1,39 @@
 import flatpickr from "flatpickr";
+import { Notify } from 'notiflix/build/notiflix-notify-aio';
 // Дополнительный импорт стилей
 import "flatpickr/dist/flatpickr.min.css";
+
+const INTERVAL_UPDATE = 1000;
+let userSelectDate ;
+let intervalID;
+const btnStart = document.querySelector('button[data-start]');
+const refs = {
+  spanDays: document.querySelector('span[data-days]'),
+  spanHours: document.querySelector('span[data-hours]'),
+  spanMinutes: document.querySelector('span[data-minutes]'),
+  spanSeconds: document.querySelector('span[data-seconds]'),
+  }
+
+btnStart.setAttribute("disabled","")
+
+btnStart.addEventListener("click",()=>{
+intervalID = setInterval(updateTimeInerface,INTERVAL_UPDATE)
+})
+
+function updateTimeInerface(){
+ const result = userSelectDate - Date.now();
+ btnStart.setAttribute("disabled","")
+ if (result < 1000) {
+   clearInterval(intervalID);
+   btnStart.removeAttribute('disabled');
+ }
+ const resultConvertMs = convertMs(result);
+ refs.spanDays.textContent = addLeadingZero(resultConvertMs.days);
+ refs.spanHours.textContent = addLeadingZero(resultConvertMs.hours);
+ refs.spanMinutes.textContent = addLeadingZero(resultConvertMs.minutes);
+ refs.spanSeconds.textContent = addLeadingZero(resultConvertMs.seconds);
+ 
+}
 
 const options = {
     enableTime: true,
@@ -8,7 +41,8 @@ const options = {
     defaultDate: new Date(),
     minuteIncrement: 1,
     onClose(selectedDates) {
-      console.log(selectedDates[0]);
+      userSelectDate = selectedDates[0].getTime();
+      checkUsersDate();
     },
   };
 
@@ -29,8 +63,21 @@ const options = {
     const seconds = Math.floor((((ms % day) % hour) % minute) / second);
   
     return { days, hours, minutes, seconds };
+  };
+
+function addLeadingZero(value) {
+  return String(value).padEnd(2,'0');
+}
+
+
+function checkUsersDate(){
+  if (userSelectDate < new Date().getTime()){
+    Notify.failure('Please choose a date in the future',{
+      timeout: 1500,
+    });
+  }else {
+    btnStart.removeAttribute('disabled');
   }
-  
-  console.log(convertMs(2000)); // {days: 0, hours: 0, minutes: 0, seconds: 2}
-  console.log(convertMs(140000)); // {days: 0, hours: 0, minutes: 2, seconds: 20}
-  console.log(convertMs(24140000)); // {days: 0, hours: 6 minutes: 42, seconds: 20}
+} 
+flatpickr('input[type="text"]',options);
+
