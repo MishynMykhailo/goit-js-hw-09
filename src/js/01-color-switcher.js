@@ -1,4 +1,4 @@
-
+import { Notify } from 'notiflix/build/notiflix-notify-aio';
 let intervalChange;
 const refs = {
     bodyStyle: document.querySelector('body'),
@@ -20,7 +20,6 @@ function changeBack() {
 function offBackgroundChange () {
     refs.startRef.removeAttribute("disabled")
     clearInterval(intervalChange)
-    console.log(startRef.attributes)
 }
 
 function getRandomHexColor() {

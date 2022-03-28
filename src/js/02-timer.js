@@ -25,7 +25,9 @@ function updateTimeInerface(){
  btnStart.setAttribute("disabled","")
  if (result < 1000) {
    clearInterval(intervalID);
-   btnStart.removeAttribute('disabled');
+   Notify.success('✅Ding ding, your time has come',{
+    timeout: 2000,
+  })
  }
  const resultConvertMs = convertMs(result);
  refs.spanDays.textContent = addLeadingZero(resultConvertMs.days);
